@@ -38,6 +38,12 @@ xcall = call.x(:, 1:call.N);
 fcall = call.f(:, 1:call.N) * call.norm;
 gcall = call.g(:, 1:call.N) * call.norm;
 
+idx = ~isnan(fcall) & ~isinf(fcall);
+xcall = xcall(:, idx);
+fcall = fcall(:, idx);
+gcall = gcall(:, idx);
+Ncall = length(fcall);
+
 %
 % if (info == 7)
 %     disp(['Not satisfying Wolf conditions!'])

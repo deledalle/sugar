@@ -1,13 +1,12 @@
-% setting_multiscale_globalparameter - set up a multiscale wavelet
-%                                      problem with one parameter
-%                                      per scale
+% setting_multiscale - set up a multiscale wavelet
+%                      problem with one parameter
+%                      per scale
 %
 %   Copyright (c) 2014 Charles Deledalle
 
 %%% Build signal f
 if ~exist('f0', 'var')
-    f0 = double(imread('mandrill.png'));
-    f0 = f0(50 + (1:256), 50 + (1:256));
+    f0 = double(imread('cameraman.png'));
 end
 [n1, n2] = size(f0);
 f0 = f0(:);

@@ -1,4 +1,4 @@
-% figure1_b - produces Figure 5.1 (a,c,d) of the SUGAR paper
+% gen_fig51a - produces Figure 5.1 (a) of the SUGAR paper
 %
 %   Copyright (c) 2014 Charles Deledalle
 
@@ -18,7 +18,7 @@ lnb = 26;
 lambda_list = linspace(lmin, lmax, lnb);
 
 %%% Estimate SURE-MC with Exhaustive search
-fprintf('\nStart exhaustive search (26 points, may take some time)\n');
+fprintf('\nStart exhaustive search (%d points, may take some time)\n', lnb);
 [pred_sure, f] = estimate_risk_mc(y, lambda_list, ...
                                   param, phi0, sig, ...
                                   solver_for_mc, risk);

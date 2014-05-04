@@ -4,7 +4,7 @@
 %   with Total Variation
 %   using Chambolle Pock algorithm
 %
-%   Optimal paramter is obtained with SUGAR and BFGS
+%   The near-optimal parameter is obtained with SUGAR and BFGS
 %
 %   Copyright (c) 2014 Charles Deledalle
 
@@ -71,22 +71,23 @@ f_bfgs_opt      = solver_for_fdmc(y, lambda_bfgs_opt);
 
 %%% Show stats
 fprintf('\nShow results\n');
-fprintf('  Original PSNR: %.2f\n', ...
-        psnr(phi0.ML(y), f0));
-fprintf('  Final PSNR: %.2f\n', ...
-        psnr(f_bfgs_opt, f0));
+fprintf('  Original PSNR: %.2f\n', psnr(phi0.ML(y), f0));
+fprintf('  Final PSNR: %.2f\n', psnr(f_bfgs_opt, f0));
 
 %%% Plot images
 figure
-subplot(1,3,1)
+subplot(2,2,1)
 plotimage(reshape(f0, n1, n2));
 title('Original');
-subplot(1,3,2)
+subplot(2,2,2)
+plotimage(reshape(y, n1, n2));
+title(sprintf('Observed PSNR: %f', psnr(y, f0)));
+subplot(2,2,3)
 plotimage(reshape(phi0.ML(y), n1, n2));
-title('Observed');
-subplot(1,3,3)
+title(sprintf('Least-square PSNR: %f', psnr(phi0.ML(y), f0)));
+subplot(2,2,4)
 plotimage(reshape(f_bfgs_opt, n1, n2));
-title('Restored');
+title(sprintf('Restored PSNR: %f', psnr(f_bfgs_opt, f0)));
 linkaxes
 
 deterministic('off', state);

@@ -27,11 +27,6 @@ time_bfgs = toc;
 fprintf('\nGet the final image\n');
 f_bfgs_opt = solver_for_fdmc(y, lambda_bfgs_opt);
 
-idx = param.ok(lambda_bfgs_rec);
-lambda_bfgs_rec  = lambda_bfgs_rec(idx);
-asure_bfgs_rec   = asure_bfgs_rec(idx);
-asugar_bfgs_rec  = asugar_bfgs_rec(idx);
-
 %%% Define range of lambdas
 margin = (max(lambda_bfgs_rec) - min(lambda_bfgs_rec)) / 10;
 if margin > 0
@@ -156,10 +151,13 @@ legend([p3 p4 p5 p6 p7], ...
 figure
 subplot(1,3,1)
 plotimage(reshape(f0, n1, n2));
+title('Original');
 subplot(1,3,2)
 plotimage(reshape(y, n1, n2));
+title(sprintf('Observed PSNR: %f', psnr(y, f0)));
 subplot(1,3,3)
 plotimage(reshape(f_bfgs_opt, n1, n2));
+title(sprintf('Restored PSNR: %f', psnr(f_bfgs_opt, f0)));
 linkaxes
 
 deterministic('off', state);

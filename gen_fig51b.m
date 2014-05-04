@@ -1,4 +1,4 @@
-% figure1_b - produces Figure 5.1 (b) of the SUGAR paper
+% gen_fig51b - produces Figure 5.1 (b) of the SUGAR paper
 %
 %   Copyright (c) 2014 Charles Deledalle
 
@@ -26,11 +26,6 @@ time_bfgs = toc;
 
 fprintf('\nGet the final image\n');
 f_bfgs_opt = solver_for_fdmc(y, lambda_bfgs_opt);
-
-idx = param.ok(lambda_bfgs_rec);
-lambda_bfgs_rec  = lambda_bfgs_rec(idx);
-asure_bfgs_rec   = asure_bfgs_rec(idx);
-asugar_bfgs_rec  = asugar_bfgs_rec(idx);
 
 %%% Compute background
 % Define range of lambdas

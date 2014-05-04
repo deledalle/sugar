@@ -1,4 +1,4 @@
-% figure2_acde - produces Figure 5.2 (a,c,d,e) of the SUGAR paper
+% gen_fig52a - produces Figure 5.2 (a) of the SUGAR paper
 %
 %   Copyright (c) 2014 Charles Deledalle
 
@@ -14,11 +14,11 @@ setting_total_variation;
 %%% Define range of lambdas
 lmin = 0.70536740;
 lmax = 1.55589575;
-lnb = 26*2;
+lnb = 52;
 lambda_list = linspace(lmin, lmax, lnb);
 
 %%% Estimate SURE-MC with Exhaustive search
-fprintf('\nStart exhaustive search (52 points, may take some time)\n');
+fprintf('\nStart exhaustive search (%d points, may take some time)\n', lnb);
 [asure, f] = estimate_risk_mc(y, lambda_list, ...
                               param, phi0, sig, ...
                               solver_for_mc, risk);
@@ -75,10 +75,13 @@ legend('Risk', 'Projection risk', 'GSURE_{MC}', ...
 figure
 subplot(1,3,1)
 plotimage(reshape(f0, n1, n2));
+title('Original');
 subplot(1,3,2)
 plotimage(reshape(y, n1, n2));
+title(sprintf('Observed PSNR: %f', psnr(y, f0)));
 subplot(1,3,3)
-plotimage(reshape(f{k_opt}, n1, n2));
+plotimage(reshape(f_bfgs_opt, n1, n2));
+title(sprintf('Restored PSNR: %f', psnr(f_bfgs_opt, f0)));
 linkaxes
 
 deterministic('off', state);
