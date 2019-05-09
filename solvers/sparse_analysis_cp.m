@@ -8,9 +8,9 @@ function varargout = sparse_analysis_cp(y, lambda, ...
 %   solve f^* = \Psi x^*
 %   where x^* = Argmin_x 1/2 | y - \Phi0 \Psi x |_2^2 + | D^* x |_(1,lambda)
 %   using Chambolle-Pock algorithm where:
-%       F(x, y)    = | x |_(1,lambda)
-%       G(x, y)    = 1/2 | y - \Phi x |_2^2
-%       K          = D^*
+%       F(x, y, lambda) = | x |_(1,lambda)
+%       G(x, y)         = 1/2 | y - \Phi x |_2^2
+%       K               = D^*
 %
 %   x                = sparse_analysis_cp(y, lambda, phi0, psi, D;
 %                                         amplitude, stop_func)
@@ -63,7 +63,7 @@ function varargout = sparse_analysis_cp(y, lambda, ...
     Nu = size(D.AS(PhiS(y)), 1);
     T = length(lambda);
 
-    %% F(x, y) = | x |_1
+    %% F(x, y, lbd) = | x |_(1, lbd)
     SoftThresh.def = @(a, lambda, tau) ...
         iif(amplitude.def(a, lambda) < tau, ...
             zeros(Nu, 1), ...

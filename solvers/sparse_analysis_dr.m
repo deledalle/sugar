@@ -8,10 +8,10 @@ function varargout = sparse_analysis_dr(y, lambda, ...
 %   solve f^* = \Psi x^*
 %   where x^* = Argmin_x 1/2 | y - \Phi0 \Psi x |_2^2 + | D^* x |_(1,lambda)
 %   using Douglas-Rachford algorithm where:
-%       F(x, y, lambda, u) = F1(x, y) + F2(u, lambda)
-%       F1(x, y)           = 1/2 | y - \Phi x |_2^2
-%       F2(u, lambda)      = | u |_(1,lambda)
-%       G(x, y, u)         = is(DS * x = u)
+%       F([x u], y, lambda) = F1(x, y) + F2(u, lambda)
+%       F1(x, y)            = 1/2 | y - \Phi x |_2^2
+%       F2(u, lambda)       = | u |_(1,lambda)
+%       G([x u], y, lambda) = is(DS * x = u)
 %
 %   x                = sparse_analysis_dr(y, lambda, phi0, psi, D;
 %                                         amplitude, stop_func)
@@ -87,7 +87,7 @@ function varargout = sparse_analysis_dr(y, lambda, ...
             tau * PhiS(dy - phi0.IdPtauAAS_Inv(Phi(tau * PhiS(dy)), tau));
     end
 
-    %% F2(u, lambda) = | u |_1
+    %% F2(u, y, lbd) = | u |_(1, lbd)
     SoftThresh.def = @(a, lambda, tau) ...
         iif(amplitude.def(a, lambda) < tau, ...
             zeros(Nu, 1), ...
@@ -111,7 +111,7 @@ function varargout = sparse_analysis_dr(y, lambda, ...
     proxF2.D{2} = @(u, y, lambda, tau, dy) zeros(Nu, 1);
     proxF2.D{3} = @(u, y, lambda, tau)     SoftThresh.D{2}(u, lambda, tau);
 
-    %% F(y, [x u]) = F1(x, y) + F2(u, y)
+    %% F([x u], y, lbd) = F1(x, y) + F2(u, y, lbd)
     proxF.def = @(xu, y, lambda, tau) ...
         [ proxF1.def(xu(1:Nx), y, tau) ; ...
           proxF2.def(xu((Nx+1):end), y, lambda, tau) ];
@@ -125,7 +125,7 @@ function varargout = sparse_analysis_dr(y, lambda, ...
         [ zeros(Nx, T) ; ...
           proxF2.D{3}(xu((Nx+1):end), y, lambda, tau) ];
 
-    %% G(y, [x u]) = is(DS * x = u)
+    %% G([x u], y, lbd) = is(DS * x = u)
     function xu = funcProxG(xu, tau)
         for k = 1:size(xu, 2)
             x = xu(1:Nx,k);

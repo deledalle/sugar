@@ -32,7 +32,7 @@ function varargout = chambolle_pock(y, theta, N, ...
 %      u is the relative distance between two iterates.
 %      st, the iterations stops as soon as stop_func returns true.
 %   energy_func is an anonymous function evaluating the energy at x.
-%   delta is the direction is which to apply the jacobian wrt y.
+%   delta is the direction in which to apply the jacobian wrt y.
 %
 %   x is the solution.
 %   dx_dy_delta is the jacobian wrt to y in the direction delta
